@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
+from product.routers.login import get_current_user
 from fastapi.params import Depends
 from ..database import get_db
 from .. import models,schemas
@@ -10,7 +11,7 @@ from fastapi import status
 router = APIRouter(tags=['Products'])
 
 @router.get('/products',response_model = List[schemas.DisplayProduct])
-def products(db: Session = Depends(get_db)):
+def products(db: Session = Depends(get_db),current_user:schemas.Seller = Depends(get_current_user)):
     products = db.query(models.Product).all()#.filter(models.Product.id== id).first()
     return products
 
