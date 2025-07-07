@@ -2,16 +2,17 @@ from fastapi import APIRouter,Depends,status,HTTPException
 from .. import schemas,database,models
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from ..database import getdb 
+ 
 from ..schemas import TokenData
 from datetime import datetime,timedelta
+from ..database import get_db
 from jose import jwt,JWTError
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 router = APIRouter()
 
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
-oauth2scheme = OAuth2PasswordBearer()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 SECRET_KEY = "1234567"
 ALOGORITHM = "HS256"
